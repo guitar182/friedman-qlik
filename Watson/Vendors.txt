@@ -1,0 +1,16 @@
+VendorCorporate:
+LOAD
+	VMDRC as VendorType,
+	VMALPH as VendorAlpha,
+	V1VN# as Vendor,
+	VMNAME as VendorName,
+	V1FF1 as VendorPriority,
+    V1VN# & ' - ' & VMNAME as VendorInfo;
+
+SQL SELECT
+	VMDRC,
+	VMALPH,
+	V1VN#,
+	VMNAME,
+	V1FF1
+FROM FRNDTA032.VM1P;

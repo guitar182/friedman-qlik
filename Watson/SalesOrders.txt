@@ -1,0 +1,30 @@
+// LIB CONNECT TO 'WatsonDTA032';
+LIB CONNECT TO 'FrontierLive';
+
+SaleOrderHeader:
+LOAD
+	"OHORD#" as SalesOrder,
+	OHLSUF as SOSuffix,
+	OHBTKY as SoldTo;
+
+SQL SELECT
+	"OHORD#",
+	OHLSUF,
+	OHBTKY
+FROM FRNDTA032.OHP;
+
+SaleOrderLine:
+LOAD
+	"O6ORD#" as SalesOrder,
+	O6SUFX as SOSuffix,
+    O6ITEM as SOLineNumber,
+	ODPN as SOProduct,
+	O6PLIN as ProductLine;
+
+SQL SELECT
+	"O6ORD#",
+	O6SUFX,
+    O6ITEM,
+	ODPN,
+	O6PLIN
+FROM FRNDTA032.O6P;

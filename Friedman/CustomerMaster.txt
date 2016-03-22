@@ -1,0 +1,22 @@
+// LIB CONNECT TO 'WatsonDTA032';
+LIB CONNECT TO 'FrontierLive';
+
+CustomerShipToName:
+LOAD C1STKY as ShipTo,
+    CMNAME as ShipToNameOnly,
+    C1STKY & '-' & CMNAME as ShipToName;
+SQL SELECT C1STKY,
+    CMNAME
+   
+FROM FRNDTA032.CM1P;
+//where CMAKEY = 'QLIK';
+
+CustomerSoldToName:
+LOAD C1STKY as SoldTo,
+    CMNAME as SoldToNameOnly,
+    C1STKY & '-' & CMNAME as SoldToName;
+SQL SELECT C1STKY,
+    CMNAME
+   
+FROM FRNDTA032.CM1P;
+//where CMAKEY = 'QLIK';

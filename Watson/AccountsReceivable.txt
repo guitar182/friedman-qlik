@@ -1,0 +1,65 @@
+ARAging:
+LOAD
+	ARSTKY as SoldTo,
+	ARBTKY as ShipTo,
+	ARDIV as ARDivision,
+	ARWH as ARWarehouse,
+	ARPLIN as ARProductLine,
+	ARINV# as ARInvoice#,
+	ARSM as ARSalesman,
+	DUEDATE as ARDueDate,
+	INVOICEDATE as ARInvoiceDate,
+	ARORD# as SalesOrder,
+	ARPO# as ShipToPONumber,
+	ARORG$ as InvoiceAmount,
+	ARONDC as NoDiscountValue,
+	ARAPP$ as AmountApplied,
+	LASTAPPLIEDDATE as ARLastApplied,
+	ARORG$ - ARAPP$ as Balance,
+	TODAY() - DUEDATE as ARAge,
+    if( DUEDATE - Today() >= 0, -1, (if(fabs(Mod( DUEDATE - Today()-1, 30)) < 4,	fabs(Mod( DUEDATE - Today()-1, 30)), 4))) as PeriodValue;
+    
+SQL SELECT
+	ARSTKY,
+	ARBTKY,
+	ARDIV,
+	ARWH,
+	ARPLIN,
+	ARINV#,
+	ARSM,
+	CAST(
+		CASE
+			WHEN ARDUMM > 0 THEN CONCAT(CONCAT(CONCAT(CONCAT(ARDUYY+2000,'-'), INT((ARDUMM - RIGHT(ARDUMM,2))/100 )), '-'), RIGHT(ARDUMM,2) )
+		ELSE NULL
+		END
+	AS DATE) AS DUEDATE,
+		CAST(
+		CASE
+			WHEN ARIVMM > 0 THEN CONCAT(CONCAT(CONCAT(CONCAT(ARIVYY+2000,'-'), INT((ARIVMM - RIGHT(ARIVMM,2))/100 )), '-'), RIGHT(ARIVMM,2) )
+		ELSE NULL
+		END
+	AS DATE) AS INVOICEDATE,
+	ARORD#,
+	ARPO#,
+	ARORG$,
+	ARONDC,
+	ARAPP$,
+	CAST(
+		CASE
+			WHEN ARLAMM > 0 THEN CONCAT(CONCAT(CONCAT(CONCAT(ARLAYY+2000,'-'), INT((ARLAMM - RIGHT(ARLAMM,2))/100 )), '-'), RIGHT(ARLAMM,2) )
+		ELSE NULL
+		END
+	AS DATE) AS LASTAPPLIEDDATE
+FROM FRNDTA032.ARP;
+
+   
+AgingPeriods:
+LOAD * INLINE
+  	[
+  	Period,PeriodValue
+    'Current', -1
+	'1-30',0
+  	'31-60',1
+    '61-90',2
+    '91-120',3
+    '121+',4];

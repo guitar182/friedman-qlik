@@ -1,0 +1,64 @@
+LIB CONNECT TO 'WatsonDTA032';
+
+CustomerTypeCodes:
+LOAD NFTYP as NFP,
+    NFNUMB as CustomerTypeCode,
+    NFDESC as CustomerType;
+SQL SELECT NFTYP,
+    NFNUMB,
+    NFDESC
+    
+FROM FRNDTA032.NFPL
+where NFTYP = 'CT' and NFNUMB <> '.';
+
+DivisionCodes:
+LOAD NFTYP as NFPDIV,
+    NFNUMB as DivisionCode,
+    NFDESC as Division;
+SQL SELECT NFTYP,
+    NFNUMB,
+    NFDESC
+FROM FRNDTA032.NFPL
+where NFTYP = 'DV' and NFNUMB <> '.';
+
+
+WarehouseCodes:
+LOAD NFTYP as NFPWH,
+    NFNUMB as ShipWarehouseCode,
+    NFDESC as ShipWarehouse;
+SQL SELECT NFTYP,
+    NFNUMB,
+    NFDESC
+FROM FRNDTA032.NFPL
+where NFTYP = 'WH' and NFSUFX= 0;
+
+ProductClassCodes:
+LOAD NFTYP as NFPPCLS,
+    NFNUMB as ProductClassCode,
+    NFDESC as ProductClass;
+SQL SELECT NFTYP,
+    NFNUMB,
+    NFDESC
+FROM FRNDTA032.NFPL
+where NFTYP = 'PR' and NFNUMB <> '.';
+
+
+ProductLineCodes:
+LOAD NFTYP as NFPPLIN,
+    NFNUMB as ProductLineCode,
+    NFDESC as ProductLine;
+SQL SELECT NFTYP,
+    NFNUMB,
+    NFDESC
+FROM FRNDTA032.NFPL
+where NFTYP = 'PL'and NFNUMB <> '.';
+
+Territories:
+LOAD NFTYP as NFPTERR,
+    NFNUMB as TerritoryCode,
+    NFDESC as Terriroty;
+SQL SELECT NFTYP,
+    NFNUMB,
+    NFDESC
+FROM FRNDTA032.NFPL
+where NFTYP = 'TR'and NFNUMB <> '.';

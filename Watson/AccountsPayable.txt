@@ -1,0 +1,44 @@
+APAging:
+LOAD
+	APDIV as Division,
+	APVNDR as Vendor,
+    APPINV as VenderInvoice,
+    DUEDATE as VoucherDueDate,
+    APINV$ as InvoiceAmount,
+    APCHK$ as CheckAmount,
+    APDSA as DiscountAmount,
+    DUEDATE - TODAY() as Aging,
+    if( DUEDATE - Today() >= 0, -1, (if(fabs(Mod( (DUEDATE - Today()-1), 30)) < 4,	fabs(Mod( (DUEDATE - Today()-1), 30)), 4))) as PeriodValue;
+    
+
+SQL SELECT
+	APDIV,
+	APVNDR,
+	APPINV,
+	APINVD,
+	APBAT#,
+	APBAT$,
+	APVCH$,
+	CAST(
+		CASE
+			WHEN APPYMD > 0 THEN CONCAT(CONCAT(CONCAT(CONCAT(APPYYR+2000,'-'), INT((APPYMD - RIGHT(APPYMD,2))/100 )), '-'), RIGHT(APPYMD,2) )
+		ELSE NULL
+		END
+	AS DATE) AS DUEDATE,
+	APINV$,
+	APCHK$,
+    APDSA
+FROM FRNDTA032.APP 
+	WHERE  APINV$ - APCHK$ - APDSA <> 0;
+
+   
+// APAgingPeriods:
+// LOAD * INLINE
+//   	[
+//   	APPeriod,APPeriod
+//     'Current', -1
+//     '1-29',0
+//   	'30-59',1
+//     '60-89',2
+//     '90-119',3
+//     '120+',4];

@@ -1,0 +1,22 @@
+LIB CONNECT TO 'WatsonDTA032';
+
+Salesman1:
+LOAD SPSM as Salesman1,
+    SPNAME as Salesman1Name;
+SQL SELECT SPSM,
+    SPNAME
+FROM FRNDTA032.SPP;
+
+Salesman2:
+LOAD SPSM as Salesman2,
+    SPNAME as Salesman2Name;
+SQL SELECT SPSM,
+    SPNAME
+FROM FRNDTA032.SPP;
+
+Salesman3:
+LOAD SPSM as Salesman3,
+    SPNAME as Salesman3Name;
+SQL SELECT SPSM,
+    SPNAME
+FROM FRNDTA032.SPP;

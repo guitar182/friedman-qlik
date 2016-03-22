@@ -1,0 +1,99 @@
+// LIB CONNECT TO 'WatsonDTA032';
+LIB CONNECT TO 'FrontierLive';
+
+	let vWeek		= '=week(StartDate)';
+//     let vPeriod		= '=year(StartDate) & Num(month(StartDate), "00")'
+	let vMaxDate  = '=max(StartDate)';
+ 	let vMaxDay   = '=day(max(StartDate))';
+	let vMaxMonth  = '=month(max(StartDate))';
+	let vMaxYear  = '=max(year(StartDate))';
+
+ScheduledResources:
+LOAD 
+	SRON as WorkOrder,
+	"SRRES#" as Resource,
+	SRPART as Product,
+	SRWH as WareHouse,
+	SRSTAT as Status,
+	SRRQ as RequiredQuantity,
+	SRQTYP as Quantity,
+	SRPER as PricePer,
+	SRLTO as LeadTime,
+    MakeDate(SRSDY, Left(Num(SRSDM,'0000'),2), Right(SRSDM,2)) as StartDate,
+	MakeDate(SRDDY, Left(Num(SRDDM,'0000'),2), Right(SRDDM,2)) as DueDate,
+	SRCAP as MaxCapacity,
+	SRUM as ResourceUM,
+	SRDESC as SRDescription,
+    // Custom Fields
+    SRSDY & '-' & Num(Week(MakeDate(SRSDY, Left(Num(SRSDM,'0000'),2), Right(SRSDM,2))), '00') as WeekNumber,
+    WeekStart(MakeDate(SRSDY, Left(Num(SRSDM,'0000'),2), Right(SRSDM,2))-1) as WeekOf,
+    SRSDY, Left(Num(SRSDM,'0000'),2) as FinancialPeriod;
+	
+SQL SELECT 
+	SRON,
+	"SRRES#",
+	SRPART,
+	SRWH,
+	SRSTAT,
+	SRRQ,
+	SRQTYP,
+	SRPER,
+	SRLTO,
+	SRSDM,
+	SRSDY,
+	SRDDM,
+	SRDDY,
+	SRCAP,
+	SRUM,
+	SRDESC,
+	SRSDC,
+	SRDDC
+
+FROM FRNDTA032.SRP;
+
+ResourceDefinitions:
+LOAD
+	"RSRES#" as Resource,
+	RSDESC as RSDescription,
+	MakeDate(RSDIYY, Left(Num(RSDIMM,'0000'),2), Right(RSDIMM,2)) as EffectiveIn,
+	MakeDate(RSDIYY, Left(Num(RSDOMM,'0000'),2), Right(RSDOMM,2)) as EffectiveOut,
+	RSCAP as DailyCapacityAvailable,
+	RSUM as ResourceDefUM,
+	RSWRKD as WorkingDays,
+	RSCTOL as DailyCapacity,
+	RSDRES as DrivingResourceCode,
+	RSCTTP as CartType,
+	RSSPRD as ResourceFlag;
+
+SQL SELECT
+	"RSRES#",
+	RSDESC,
+	RSDIMM,
+	RSDIYY,
+	RSDOMM,
+	RSDOYY,
+	RSCAP,
+	RSUM,
+	RSWRKD,
+	RSCTOL,
+	RSDRES,
+	RSDICT,
+	RSDOCT,
+	RSCTTP,
+	RSSPRD
+FROM FRNDTA032.RSP;
+
+WorkOrders:
+LOAD
+	MOMO as WorkOrder,
+	MOORD as SalesOrder,
+	MOITEM as SOLineNumber;
+	
+SQL SELECT
+	MOMO, 
+	MOITEM,
+	MOORD
+FROM FRNDTA032.MOP;
+
+
+let vLastLoad = '= ReloadTime()';

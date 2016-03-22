@@ -1,0 +1,45 @@
+// LIB CONNECT TO 'WatsonDTA032';
+LIB CONNECT TO 'FrontierLive';
+
+ProductMaster:
+LOAD
+	PMPART as Product,
+	PMDESC as PMDescription,
+	PMIUM as IUM;
+	
+SQL SELECT
+	PMPART,
+	PMDESC,
+	PMIUM
+	
+FROM FRNDTA032.PMP;
+
+InventorySegment:
+LOAD
+	ISPART as Product,
+	ISWH as Warehouse,
+	ISSMC as StdMatCost,
+	ISSTOH as StockOnHand;
+
+SQL SELECT
+	ISPART,
+	ISWH,
+	ISSMC,
+	ISSTOH
+	
+FROM FRNDTA032.ISP;
+
+LastTransDate:
+LOAD
+	AFPART as Product,
+	AFWH as Warehouse,
+	LASTTRANDATE as LastTransactionDate;
+
+SQL SELECT
+	AFPART,
+	AFWH,
+	LASTTRANSDATE,
+	
+FROM FRNDTA032.LASTTRANSDATEBYPART;
+
+let vLastLoad = '= ReloadTime()';
