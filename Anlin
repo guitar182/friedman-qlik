@@ -1,0 +1,19 @@
+section access;
+LOAD * inline [
+ACCESS, USERID,SALESMAN1, OMIT
+ADMIN, clovis-an\bobby,
+ADMIN, clovis-an\charles.gregory,
+ADMIN, clovis-an\ming.vangyi,
+ADMIN, clovis-an\chris.gillette,
+ADMIN, clovis-an\stan.fikes,
+ADMIN, clovis-an\john.maloney,
+ADMIN, clovis-an\matt.imfeld,
+USER, clovis-an\mark.imfeld,MARK,
+USER, clovis-an\craig.burnett,CRAIG,
+USER, clovis-an\greg.garza,GREG,
+USER, clovis-an\dave.coleman,DAVE,
+USER, clovis-an\dave.michael,DA MI,
+USER, clovis-an\casey.brown,CASEY,
+USER, INTERNAL\SA_SCHEDULER,*,
+];
+section application;
